@@ -28,7 +28,7 @@ public class StadiumApi {
     @GetMapping("/{id}")
     public ResponseEntity<Stadium>getStadiumById(@PathVariable(value="id") Integer stadiumId) throws ResourceNotFoundException{
         Stadium stadium = stadiumService.findStadiumById(stadiumId).orElseThrow(()-> new ResourceNotFoundException("Stadium not found on this " + stadiumId ));
-        return ResponseEntity.ok().body(stadium);
+        return ResponseEntity.ok(stadium);
     }
 
 
