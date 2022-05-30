@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface StadiumRepository extends JpaRepository<Stadium , Integer> {
     List<Stadium> getAll();
 
-    void saveStadium(Stadium stadium);
+    Stadium saveStadium(Stadium stadium);
 
     Optional<Stadium> findStadiumById(Integer id);
 

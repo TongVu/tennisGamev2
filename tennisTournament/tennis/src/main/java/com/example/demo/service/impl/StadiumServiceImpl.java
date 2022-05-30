@@ -20,8 +20,8 @@ public class StadiumServiceImpl implements StadiumService {
     }
 
     @Override
-    public void saveStadium(Stadium stadium){
-        stadiumRepository.save(stadium);
+    public Stadium saveStadium(Stadium stadium){
+        return stadiumRepository.save(stadium);
     }
 
     @Override
