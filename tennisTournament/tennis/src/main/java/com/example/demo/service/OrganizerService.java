@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface OrganizerService {
     List<Organizer> getAll();
 
-    void save(Organizer organizer);
+    Organizer save(Organizer organizer);
 
     Optional<Organizer> findById(String name);
 

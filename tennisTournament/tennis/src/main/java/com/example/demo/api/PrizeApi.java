@@ -1,6 +1,5 @@
 package com.example.demo.api;
 
-
 import com.example.demo.entity.Prize;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.PrizeService;
@@ -8,41 +7,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/prize")
+@RequestMapping(PrizeApi.PATH)
 public class PrizeApi {
     @Autowired
     private PrizeService prizeService;
+    public static final String PATH = "/api/prizes";
+
     @GetMapping
-    public List<Prize> getAll(){
-        return prizeService.getAll();
+    public ResponseEntity<List<Prize>> getAll() {
+        return ResponseEntity.ok(prizeService.getAll());
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity <Prize> getById(@PathVariable(value = "id")Integer id)throws ResourceNotFoundException {
-        Prize prize=prizeService.getById(id)
-                .orElseThrow(()->new ResourceNotFoundException("Id does not exist "+id));
-        return ResponseEntity.ok().body(prize);
+    public ResponseEntity<Prize> getById(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
+        Prize prize = prizeService.getById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Id does not exist " + id));
+        return ResponseEntity.ok(prize);
     }
-    @PostMapping("/add")
-    public Prize add(@RequestBody Prize prize){
-        return prizeService.save(prize);
+
+    @PostMapping
+    public ResponseEntity<Prize> add(@RequestBody Prize prize) {
+        Prize prizeCreated = prizeService.save(prize);
+        return ResponseEntity.created(URI.create(PrizeApi.PATH + "/" + prizeCreated.getId())).body(prizeCreated);
     }
+
     @DeleteMapping("/{id}")
-    public Map<String, Boolean> delete(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<Void> delete(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
         Prize prize = prizeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id does not exist " + id));
         prizeService.deleteById(id);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return response;
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Prize> update(@PathVariable(value = "id") Integer id,
-                                        @RequestBody Prize prizeDetails) throws ResourceNotFoundException{
+                                        @RequestBody Prize prizeDetails) throws ResourceNotFoundException {
         Prize prize = prizeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id does not exist " + id));
         prize.setId(prizeDetails.getId());
         prize.setPrizeType(prizeDetails.getPrizeType());

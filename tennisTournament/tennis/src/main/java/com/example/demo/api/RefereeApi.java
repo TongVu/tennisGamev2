@@ -1,42 +1,45 @@
 package com.example.demo.api;
 
-import com.example.demo.Exceptions.ResourceNotFound;
+import com.example.demo.entity.Prize;
 import com.example.demo.entity.Referee;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.service.PrizeService;
 import com.example.demo.service.impl.RefereeServiceImpl;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.net.URI;
+import java.util.List;
 
 @RestController
-@RequestMapping("/referee")
+@RequestMapping(RefereeApi.PATH)
 public class RefereeApi {
     @Autowired
     private RefereeServiceImpl refereeService;
+    public static final String PATH = "/api/referees";
 
     @GetMapping
-    public List<Referee> getAll(){
-        return refereeService.getAll();
+    public ResponseEntity<List<Referee>> getAll(){
+        return ResponseEntity.ok(refereeService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Referee> update(@PathVariable(value = "id") Integer id) throws ResourceNotFound{
-        Referee referee = refereeService.getById(id).orElseThrow(() -> new ResourceNotFound("Id not found on " + id));
-        return ResponseEntity.ok().body(referee);
+    public ResponseEntity<Referee> update(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
+        Referee referee = refereeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
+        return ResponseEntity.ok(referee);
     }
 
-    @PostMapping("/add")
-    public Referee add(@RequestBody Referee referee){
-        return refereeService.save(referee);
+    @PostMapping
+    public ResponseEntity<Referee> add(@RequestBody Referee referee){
+        Referee createdReferee = refereeService.save(referee);
+        return ResponseEntity.created(URI.create(RefereeApi.PATH+"/"+createdReferee.getId())).body(createdReferee);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Referee> update(@PathVariable(value = "id") Integer id,
-                                          @RequestBody Referee refereeDetails) throws ResourceNotFound{
-        Referee referee = refereeService.getById(id).orElseThrow(() -> new ResourceNotFound("Id not found on " + id));
-        referee.setId(refereeDetails.getId());
+                                          @RequestBody Referee refereeDetails) throws ResourceNotFoundException{
+        Referee referee = refereeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
         referee.setName(refereeDetails.getName());
         referee.setAddress(refereeDetails.getAddress());
         referee.setPhoneNumber(refereeDetails.getPhoneNumber());
@@ -45,11 +48,12 @@ public class RefereeApi {
     }
 
     @DeleteMapping("/{id}")
-    public Map<String, Boolean> delete(@PathVariable(value = "id") Integer id) throws ResourceNotFound{
-        Referee referee = refereeService.getById(id).orElseThrow(() -> new ResourceNotFound("Id not found on " + id));
+    public ResponseEntity<Void> delete(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
+        Referee referee = refereeService.getById(id).
+                orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
         refereeService.deleteById(id);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return response;
+        return ResponseEntity.noContent().build();
     }
+
+
 }
