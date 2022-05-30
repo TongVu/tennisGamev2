@@ -20,8 +20,8 @@ public class OrganizerServiceImpl implements OrganizerService {
     }
 
     @Override
-    public void save(Organizer organizer) {
-        organizerRepository.save(organizer);
+    public Organizer save(Organizer organizer) {
+       return organizerRepository.save(organizer);
     }
 
     @Override

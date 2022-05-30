@@ -1,41 +1,44 @@
 package com.example.demo.api;
 
-import com.example.demo.Exceptions.ResourceNotFound;
 import com.example.demo.entity.RefereeMatch;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.impl.RefereeMatchServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/refereematch")
+@RequestMapping(RefereeMatchApi.PATH)
 public class RefereeMatchApi {
     @Autowired
     private RefereeMatchServiceImpl refereeMatchService;
+    public static final String PATH = "/api/refereematchs";
 
     @GetMapping
-    public List<RefereeMatch> getAll(){
-        return refereeMatchService.getAll();
+    public ResponseEntity<List<RefereeMatch>> getAll(){
+        return ResponseEntity.ok(refereeMatchService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RefereeMatch> getById(@PathVariable(value = "id") Integer id) throws ResourceNotFound{
-        RefereeMatch refereeMatch = refereeMatchService.getById(id).orElseThrow(() -> new ResourceNotFound("Id not found on " + id));
-        return ResponseEntity.ok().body(refereeMatch);
+    public ResponseEntity<RefereeMatch> getById(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
+        RefereeMatch refereeMatch = refereeMatchService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
+        return ResponseEntity.ok(refereeMatch);
     }
 
-    @PostMapping("/add")
-    public RefereeMatch add(@RequestBody RefereeMatch refereeMatch){
-        return refereeMatchService.save(refereeMatch);
+    @PostMapping
+    public ResponseEntity<RefereeMatch> add(@RequestBody RefereeMatch refereeMatch){
+        RefereeMatch createdRefereeMatch = refereeMatchService.save(refereeMatch);
+        return ResponseEntity.created(URI.create(RefereeMatchApi.PATH+"/"+createdRefereeMatch.getId())).body(createdRefereeMatch);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<RefereeMatch> update(@PathVariable(value = "id") Integer id,
-                                               @RequestBody RefereeMatch refereeMatchDetails) throws ResourceNotFound{
-        RefereeMatch refereeMatch = refereeMatchService.getById(id).orElseThrow(() -> new ResourceNotFound("Id not found on " + id));
+                                               @RequestBody RefereeMatch refereeMatchDetails) throws ResourceNotFoundException{
+        RefereeMatch refereeMatch = refereeMatchService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
         refereeMatch.setId(refereeMatchDetails.getId());
         refereeMatch.setMatch(refereeMatchDetails.getMatch());
         refereeMatch.setReferee(refereeMatchDetails.getReferee());
@@ -44,11 +47,9 @@ public class RefereeMatchApi {
     }
 
     @DeleteMapping("/{id}")
-    public Map<String, Boolean> delete(@PathVariable(value = "id") Integer id) throws ResourceNotFound{
-        RefereeMatch refereeMatch = refereeMatchService.getById(id).orElseThrow(() -> new ResourceNotFound("Id not found on " + id));
+    public ResponseEntity<RefereeMatch> delete(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException{
+        RefereeMatch refereeMatch = refereeMatchService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
         refereeMatchService.deleteById(id);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted",Boolean.TRUE);
-        return response;
+        return ResponseEntity.noContent().build();
     }
 }
