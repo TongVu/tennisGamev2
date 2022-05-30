@@ -1,11 +1,9 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.Set;
+import com.example.demo.entity.SetTennis;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.criteria.CriteriaBuilder;
-
 @Repository
-public interface SetRepository extends JpaRepository<Set, Integer> {
+public interface SetTennisRepository extends JpaRepository<SetTennis, Integer> {
 }
