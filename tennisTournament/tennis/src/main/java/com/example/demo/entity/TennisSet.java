@@ -5,25 +5,34 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import javax.persistence.*;
-
+import java.time.LocalDate;
 @Builder
+
+@Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class Round {
+@Table
+public class TennisSet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String roundName;
+    private Integer player1Score;
 
-    private String roundType;
+    private Integer player2Score;
 
-    @JoinColumn
+    private Integer setWinnderId;
+
+    private Integer setNumber;
+
+    private LocalDate startTime;
+
+    private LocalDate endTime;
+
     @ManyToOne
-    private Tournament tournament;
+    @JoinColumn(name = "match_id")
+    private Match match;
 
 }

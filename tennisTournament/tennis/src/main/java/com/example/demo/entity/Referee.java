@@ -12,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class Referee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

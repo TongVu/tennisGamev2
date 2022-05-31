@@ -14,10 +14,10 @@ import java.util.List;
 public interface MatchMapper {
     MatchMapper INSTANCE =Mappers.getMapper(MatchMapper.class);
 
-    @Mapping(source="player.name1",target="player1Name")
-    @Mapping(source="player.name2",target="player2Name")
-    @Mapping(source = "round.name",target ="roundName")
-    @Mapping(source = "stadium.name",target = "stadiumName")
+    @Mapping(source="player1.firstName",target="player1Name")
+    @Mapping(source="player2.firstName",target="player2Name")
+    @Mapping(source = "round.roundName",target ="roundName")
+    @Mapping(source = "stadium.stadiumName",target = "stadiumName")
     MatchDto toDto(Match match);
 
     List<MatchDto> toDtos(List<Match> matches);

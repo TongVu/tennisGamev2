@@ -6,12 +6,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Builder
 @Entity
 @Data
 @Table
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+
 public class Player {
     @Id
     @NotNull
