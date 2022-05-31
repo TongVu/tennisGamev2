@@ -28,8 +28,7 @@ public class Match {
     @ManyToOne
     private Player player1;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(nullable = true)
+    @ManyToOne
     private Player player2;
 
     @ManyToOne
