@@ -23,9 +23,9 @@ public class MatchResource {
     private MatchService matchService;
 
     @GetMapping
-    public List<Match> getALL() {
+    public ResponseEntity<List<Match>> getALL() {
         List<Match> matchList = matchService.getAll();
-        return matchList;
+        return ResponseEntity.ok(matchList);
     }
 
     @GetMapping("/{id}")
