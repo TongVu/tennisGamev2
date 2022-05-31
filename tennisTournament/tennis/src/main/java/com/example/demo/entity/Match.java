@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Entity
 @NoArgsConstructor
@@ -38,4 +39,8 @@ public class Match {
     private Stadium stadium;
 
 
+    public void setWinnerId(Integer winnerId) {
+    if (winnerId == player1.getId() || winnerId == player2.getId())
+        this.winnerId = winnerId;
+    }
 }

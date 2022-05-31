@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 
 public class Tournament {
+
     @Id
     @Column(unique = true, nullable = false)
     private String name;

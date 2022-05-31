@@ -19,6 +19,8 @@ public class Prize {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String prizeType;
+
     private String prizeAmount;
 }

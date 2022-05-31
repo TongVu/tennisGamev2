@@ -14,6 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Data
 public class Round {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

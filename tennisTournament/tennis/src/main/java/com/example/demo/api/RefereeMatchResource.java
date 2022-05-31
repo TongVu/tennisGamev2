@@ -32,20 +32,21 @@ public class RefereeMatchResource {
     }
 
     @PostMapping
-    public ResponseEntity<RefereeMatch> add(@RequestBody RefereeMatch refereeMatch){
+    public ResponseEntity<RefereeMatchDto> add(@RequestBody RefereeMatch refereeMatch){
         RefereeMatch createdRefereeMatch = refereeMatchService.save(refereeMatch);
-        return ResponseEntity.created(URI.create(RefereeMatchResource.PATH+"/"+createdRefereeMatch.getId())).body(createdRefereeMatch);
+        return ResponseEntity.created(URI.create(RefereeMatchResource.PATH+"/"+createdRefereeMatch.getId())).body(RefereeMatchMapper.INSTANCE.toDto(createdRefereeMatch));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RefereeMatch> update(@PathVariable(value = "id") Integer id,
+    public ResponseEntity<RefereeMatchDto> update(@PathVariable(value = "id") Integer id,
                                                @RequestBody RefereeMatch refereeMatchDetails) throws ResourceNotFoundException{
-        RefereeMatch refereeMatch = refereeMatchService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
-        refereeMatch.setId(refereeMatchDetails.getId());
-        refereeMatch.setMatch(refereeMatchDetails.getMatch());
-        refereeMatch.setReferee(refereeMatchDetails.getReferee());
-        RefereeMatch refereeMatchUpdated = refereeMatchService.save(refereeMatch);
-        return ResponseEntity.ok(refereeMatchUpdated);
+        RefereeMatch refereeMatchUpdate = refereeMatchService.getById(id).
+                orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
+        refereeMatchUpdate.setId(refereeMatchDetails.getId());
+        refereeMatchUpdate.setMatch(refereeMatchDetails.getMatch());
+        refereeMatchUpdate.setReferee(refereeMatchDetails.getReferee());
+        RefereeMatch saveRefereeMatch = refereeMatchService.save(refereeMatchUpdate);
+        return ResponseEntity.ok(RefereeMatchMapper.INSTANCE.toDto(saveRefereeMatch));
     }
 
     @DeleteMapping("/{id}")

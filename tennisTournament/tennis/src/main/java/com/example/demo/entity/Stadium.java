@@ -17,6 +17,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Data
 public class Stadium {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer stadiumId;

@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class MatchDto {
 
-
         private Integer id;
         private LocalDate startDate;
         private Integer duration;
