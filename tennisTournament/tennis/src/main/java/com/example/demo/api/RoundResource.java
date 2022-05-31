@@ -35,22 +35,22 @@ public class RoundResource {
     }
 
     @PostMapping
-    public ResponseEntity<Round> create(@RequestBody Round round){
+    public ResponseEntity<RoundDto> create(@RequestBody Round round){
         Round createdRound = roundService.saveRound(round);
-        return ResponseEntity.created((URI.create(RoundResource.PATH + "/" + createdRound.getRoundName()))).body(createdRound);
+        return ResponseEntity.created(URI.create(RoundResource.PATH + "/" + createdRound.getRoundName())).body(RoundMapper.INSTANCE.toDto(createdRound));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Round> update(@PathVariable(value = "id")Integer id,
-                                        @RequestBody Round roundDetail) throws ResourceNotFoundException{
-        Round round = roundService.findRoundById(id)
-
+    public ResponseEntity<RoundDto> update(@PathVariable(value = "id")Integer id,
+                                        @RequestBody Round roundDetail)
+            throws ResourceNotFoundException{
+        Round roundUpdate = roundService.findRoundById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Id not found: " + id));
-        round.setRoundName(roundDetail.getRoundName());
-        round.setRoundType(roundDetail.getRoundType());
+        roundUpdate.setRoundName(roundDetail.getRoundName());
+        roundUpdate.setRoundType(roundDetail.getRoundType());
 
-        Round roundUpdate = roundService.saveRound(round);
-        return ResponseEntity.ok(roundUpdate);
+        Round saveRound = roundService.saveRound(roundUpdate);
+        return ResponseEntity.ok(RoundMapper.INSTANCE.toDto(saveRound));
     }
 
     @DeleteMapping("/{id}")
