@@ -3,6 +3,8 @@ package com.example.demo.api;
 import com.example.demo.entity.Stadium;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.StadiumService;
+import com.example.demo.service.dto.StadiumDto;
+import com.example.demo.service.mapper.StadiumMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +21,8 @@ public class StadiumResource {
     @Autowired
     private StadiumService stadiumService;
 
-    @GetMapping()
-    public ResponseEntity<List<Stadium>> getAll(){
-
-        return ResponseEntity.ok(stadiumService.getAll());
+    @GetMapping ResponseEntity<List<StadiumDto>> getAll(){
+        return ResponseEntity.ok(StadiumMapper.INSTANCE.toDtos(stadiumService.getAll()));
     }
 
     @GetMapping("/{id}")
