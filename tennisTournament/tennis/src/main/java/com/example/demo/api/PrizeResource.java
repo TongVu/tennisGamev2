@@ -44,7 +44,7 @@ public class PrizeResource {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<PrizeDto> update(@PathVariable(value = "id") Integer id,
                                         @RequestBody Prize prizeDetails) throws ResourceNotFoundException {
         Prize prize = prizeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id does not exist " + id));
