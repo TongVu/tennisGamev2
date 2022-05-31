@@ -1,9 +1,7 @@
 package com.example.demo.api;
 
-import com.example.demo.entity.Prize;
 import com.example.demo.entity.Referee;
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.service.PrizeService;
 import com.example.demo.service.impl.RefereeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(RefereeApi.PATH)
-public class RefereeApi {
+public class RefereeResource {
     @Autowired
     private RefereeServiceImpl refereeService;
     public static final String PATH = "/api/referees";

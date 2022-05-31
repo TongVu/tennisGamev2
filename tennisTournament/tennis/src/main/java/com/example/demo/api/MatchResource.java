@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/match")
-public class MatchApi {
+public class MatchResource {
     @Autowired
     private final MatchService matchService;
 

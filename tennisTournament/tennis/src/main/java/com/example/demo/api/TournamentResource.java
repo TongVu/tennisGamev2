@@ -11,15 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
 @RequestMapping(TournamentApi.PATH)
 
-public class TournamentApi {
+public class TournamentResource {
     public static final String PATH="/api/tournaments";
     @Autowired
     private TournamentService tournamentService;

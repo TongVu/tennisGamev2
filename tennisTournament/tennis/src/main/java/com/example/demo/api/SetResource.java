@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 @RestController
 @RequestMapping("/set")
-public class SetApi {
+public class SetResource {
     @Autowired
     SetServiceImpl setService;
 

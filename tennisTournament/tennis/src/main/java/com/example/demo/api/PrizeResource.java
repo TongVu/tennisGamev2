@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(PrizeApi.PATH)
-public class PrizeApi {
+public class PrizeResource {
     @Autowired
     private PrizeService prizeService;
     public static final String PATH = "/api/prizes";

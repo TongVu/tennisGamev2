@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(maxAge = 3600)
 @RequestMapping(StadiumApi.PATH)
-public class StadiumApi {
+public class StadiumResource {
     public static final String PATH ="/api/stadium";
     private final StadiumService stadiumService;
 

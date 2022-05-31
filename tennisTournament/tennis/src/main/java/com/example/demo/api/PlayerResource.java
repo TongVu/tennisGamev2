@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(PlayerApi.PATH)
-public class PlayerApi {
+public class PlayerResource {
     @Autowired
     private PlayerService playerService;
     public static final String PATH = "/api/players";

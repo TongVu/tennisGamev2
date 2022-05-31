@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(RoundApi.PATH)
-public class RoundApi {
+public class RoundResource {
     @Autowired
     private RoundService roundService;
 
