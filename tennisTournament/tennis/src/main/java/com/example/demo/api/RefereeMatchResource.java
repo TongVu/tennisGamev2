@@ -2,7 +2,9 @@ package com.example.demo.api;
 
 import com.example.demo.entity.RefereeMatch;
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.service.dto.RefereeMatchDto;
 import com.example.demo.service.impl.RefereeMatchServiceImpl;
+import com.example.demo.service.mapper.RefereeMatchMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +20,15 @@ public class RefereeMatchResource {
     public static final String PATH = "/api/refereematchs";
 
     @GetMapping
-    public ResponseEntity<List<RefereeMatch>> getAll(){
-        return ResponseEntity.ok(refereeMatchService.getAll());
+    public ResponseEntity<List<RefereeMatchDto>> getAll(){
+        return ResponseEntity.ok(RefereeMatchMapper.INSTANCE.toDtos(refereeMatchService.getAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RefereeMatch> getById(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
-        RefereeMatch refereeMatch = refereeMatchService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
-        return ResponseEntity.ok(refereeMatch);
+    public ResponseEntity<RefereeMatchDto> getById(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
+        RefereeMatch refereeMatch = refereeMatchService.getById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
+        return ResponseEntity.ok(RefereeMatchMapper.INSTANCE.toDto(refereeMatch));
     }
 
     @PostMapping
