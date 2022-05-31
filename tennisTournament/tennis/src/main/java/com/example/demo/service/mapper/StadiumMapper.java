@@ -12,7 +12,6 @@ import java.util.List;
 public interface StadiumMapper {
     StadiumMapper INSTANCE = Mappers.getMapper(StadiumMapper.class);
 
-    @Mapping(source = "openhour.closehour" , target = "workinghour")
     StadiumDto toDto(Stadium stadium);
     List<StadiumDto> toDtos(List<Stadium>stadiums);
 }
