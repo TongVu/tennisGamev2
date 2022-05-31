@@ -5,7 +5,7 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.TournamentService;
 import com.example.demo.service.dto.TournamentDto;
 import com.example.demo.service.mapper.TournamentMapper;
-import com.example.demo.service.mapper.TournamentMapperImpl;
+//import com.example.demo.service.mapper.TournamentMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
