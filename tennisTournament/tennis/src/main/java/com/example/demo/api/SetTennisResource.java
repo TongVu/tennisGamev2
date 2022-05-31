@@ -12,8 +12,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(SetTennisApi.PATH)
-public class SetTennisApi {
+@RequestMapping(SetTennisResource.PATH)
+public class SetTennisResource {
     public static final String PATH = "api/sets";
     @Autowired
     SetTennisServiceImpl setService;
@@ -34,7 +34,7 @@ public class SetTennisApi {
     @PostMapping
     public ResponseEntity<SetTennis> create(@RequestBody SetTennis setTennis){
         SetTennis createSetTennis = setService.save(setTennis);
-        return ResponseEntity.created(URI.create(SetTennisApi.PATH+"/"+createSetTennis.getId())).body(createSetTennis);
+        return ResponseEntity.created(URI.create(SetTennisResource.PATH+"/"+createSetTennis.getId())).body(createSetTennis);
     }
 
     @DeleteMapping("/{id}")

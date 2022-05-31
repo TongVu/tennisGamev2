@@ -8,12 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 @RestController
-@RequestMapping(RefereeMatchApi.PATH)
-public class RefereeMatchApi {
+@RequestMapping(RefereeMatchResource.PATH)
+public class RefereeMatchResource {
     @Autowired
     private RefereeMatchServiceImpl refereeMatchService;
     public static final String PATH = "/api/refereematchs";
@@ -32,7 +31,7 @@ public class RefereeMatchApi {
     @PostMapping
     public ResponseEntity<RefereeMatch> add(@RequestBody RefereeMatch refereeMatch){
         RefereeMatch createdRefereeMatch = refereeMatchService.save(refereeMatch);
-        return ResponseEntity.created(URI.create(RefereeMatchApi.PATH+"/"+createdRefereeMatch.getId())).body(createdRefereeMatch);
+        return ResponseEntity.created(URI.create(RefereeMatchResource.PATH+"/"+createdRefereeMatch.getId())).body(createdRefereeMatch);
     }
 
     @PutMapping("/{id}")

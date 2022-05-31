@@ -9,15 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(MatchApi.PATH)
-public class MatchApi {
+@RequestMapping(MatchResource.PATH)
+public class MatchResource {
     public static final  String PATH ="/api/matches";
     @Autowired
     private final MatchService matchService;

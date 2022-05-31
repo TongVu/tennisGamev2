@@ -12,8 +12,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(RefereeApi.PATH)
-public class RefereeApi {
+@RequestMapping(RefereeResource.PATH)
+public class RefereeResource {
     @Autowired
     private RefereeServiceImpl refereeService;
     public static final String PATH = "/api/referees";
@@ -33,7 +33,7 @@ public class RefereeApi {
     @PostMapping
     public ResponseEntity<Referee> add(@RequestBody Referee referee){
         Referee createdReferee = refereeService.save(referee);
-        return ResponseEntity.created(URI.create(RefereeApi.PATH+"/"+createdReferee.getId())).body(createdReferee);
+        return ResponseEntity.created(URI.create(RefereeResource.PATH+"/"+createdReferee.getId())).body(createdReferee);
     }
 
     @PutMapping("/{id}")
