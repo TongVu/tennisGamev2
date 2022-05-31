@@ -16,8 +16,6 @@ public class TournamentDto {
     private String sponsors;
     private String organizerName;
     private String location;
-
     private String note;
-
     private String introduction;
 }

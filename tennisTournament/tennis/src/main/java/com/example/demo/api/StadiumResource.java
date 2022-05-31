@@ -12,8 +12,8 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
-@RequestMapping(StadiumApi.PATH)
-public class StadiumApi {
+@RequestMapping(StadiumResource.PATH)
+public class StadiumResource {
     public static final String PATH ="/api/stadium";
 
     @Autowired
@@ -35,7 +35,7 @@ public class StadiumApi {
     @PostMapping()
     public ResponseEntity<Stadium> create(@RequestBody Stadium stadium){
         Stadium createdStadium = stadiumService.saveStadium(stadium);
-        return ResponseEntity.created(URI.create(StadiumApi.PATH + "/" + createdStadium.getStadiumId())).body(createdStadium);
+        return ResponseEntity.created(URI.create(StadiumResource.PATH + "/" + createdStadium.getStadiumId())).body(createdStadium);
     }
 
     @DeleteMapping("/{id}")
