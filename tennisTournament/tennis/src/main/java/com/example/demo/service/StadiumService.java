@@ -9,13 +9,10 @@ import java.util.Optional;
 public interface StadiumService {
     List<Stadium> getAll();
 
-
-    void saveStadium(Stadium stadium);
+    Stadium saveStadium(Stadium stadium);
 
     Optional<Stadium> findStadiumById(Integer id);
 
     void deleteStadiumById(Integer id);
 
-
-    Optional<Stadium> getById(Integer id);
 }

@@ -1,5 +1,6 @@
 package com.example.demo.api;
 
+
 import com.example.demo.entity.Referee;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.impl.RefereeServiceImpl;
@@ -11,7 +12,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(RefereeApi.PATH)
+@RequestMapping(RefereeResource.PATH)
 public class RefereeResource {
     @Autowired
     private RefereeServiceImpl refereeService;
@@ -26,12 +27,13 @@ public class RefereeResource {
     public ResponseEntity<Referee> update(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
         Referee referee = refereeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
         return ResponseEntity.ok(referee);
+
     }
 
     @PostMapping
     public ResponseEntity<Referee> add(@RequestBody Referee referee){
         Referee createdReferee = refereeService.save(referee);
-        return ResponseEntity.created(URI.create(RefereeApi.PATH+"/"+createdReferee.getId())).body(createdReferee);
+        return ResponseEntity.created(URI.create(RefereeResource.PATH+"/"+createdReferee.getId())).body(createdReferee);
     }
 
     @PutMapping("/{id}")

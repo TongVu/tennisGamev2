@@ -26,16 +26,17 @@ public class Match {
     private Integer winnerId;
 
     @ManyToOne
-    @JoinColumn(unique = true)
     private Player player1;
 
-    @ManyToOne
-    @JoinColumn(unique = true)
+    @ManyToOne(optional = true)
+    @JoinColumn(nullable = true)
     private Player player2;
 
     @ManyToOne
-    @JoinColumn
     private Round round;
+
+    @ManyToOne
+    private Stadium stadium;
 
 
 }
