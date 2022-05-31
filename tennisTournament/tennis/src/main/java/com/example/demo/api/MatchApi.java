@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,9 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/match")
+@RequestMapping(MatchApi.PATH)
 public class MatchApi {
+    public static final  String PATH ="/api/matches";
     @Autowired
     private final MatchService matchService;
 
@@ -33,8 +35,11 @@ public class MatchApi {
         return ResponseEntity.ok().body(match);
     }
 
-    @PostMapping("/add")
-    public Match create(@RequestBody Match match){return matchService.saveMatch(match);}
+    @PostMapping
+    public ResponseEntity<Match> create(@RequestBody Match match){
+        Match createdMatch= matchService.saveMatch(match);
+        return ResponseEntity.created(URI.create(PATH+"/"+createdMatch.getId())).body(createdMatch);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Match> update(@PathVariable(value = "id")Integer id,
@@ -46,19 +51,17 @@ public class MatchApi {
         match.setPlayer1(matchDetail.getPlayer1());
         match.setPlayer2(matchDetail.getPlayer2());
         match.setRound(matchDetail.getRound());
+        match.setStadium(matchDetail.getStadium());
+        Match matchUpdate = matchService.saveMatch(match);
 
-       Match matchUpdate = matchService.saveMatch(match);
-
-       return ResponseEntity.ok(matchUpdate);
+        return ResponseEntity.ok(matchUpdate);
 
     }
     @DeleteMapping("/{id}")
-    public Map<String, Boolean> delete(@PathVariable(value = "id")Integer id) throws ResourceNotFoundException{
+    public ResponseEntity<Void> delete(@PathVariable(value = "id")Integer id) throws ResourceNotFoundException{
         Match match = matchService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Match not found:" + id));
         matchService.deleteMatchById(id);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return response;
+        return ResponseEntity.noContent().build();
     }
 
 }
