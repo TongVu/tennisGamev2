@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-
 @Builder
+
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
-public class SetTennis {
+public class TennisSet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -27,9 +27,9 @@ public class SetTennis {
 
     private Integer setNumber;
 
-    private LocalDate startDate;
+    private LocalDate startTime;
 
-    private LocalDate endDate;
+    private LocalDate endTime;
 
     @ManyToOne
     @JoinColumn(name = "match_id")
