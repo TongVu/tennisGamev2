@@ -15,35 +15,48 @@ import java.util.List;
 @RestController
 @CrossOrigin(maxAge = 3600)
 @RequestMapping(TournamentResource.PATH)
-
 public class TournamentResource {
-    public static final String PATH="/api/tournaments";
+    public static final String PATH = "/api/tournaments";
     @Autowired
     private TournamentService tournamentService;
 
     @GetMapping
-    public ResponseEntity <List<TournamentDto>> getAll() {
+    public ResponseEntity<List<TournamentDto>> getAll() {
         return ResponseEntity.ok(TournamentMapper.INSTANCE.toDtos(tournamentService.getAll()));
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<Tournament> getTournamentByName(@PathVariable(value = "name") String name)
+    public ResponseEntity<TournamentDto> getTournamentByName(@PathVariable(value = "name") String name)
             throws ResourceNotFoundException {
         Tournament tournament = tournamentService.findById(name)
                 .orElseThrow(() -> new ResourceNotFoundException("Tournament not found on: " + name));
-        return ResponseEntity.ok().body(tournament);
+        return ResponseEntity.ok(TournamentMapper.INSTANCE.toDto(tournament));
     }
 
     @PostMapping
-    public ResponseEntity<Tournament> create(@RequestBody Tournament tournament) {
-        Tournament tournamentCreated= tournamentService.saveTournament(tournament);
-    return ResponseEntity.created(URI.create(TournamentResource.PATH+"/"+tournamentCreated.getName())).body(tournamentCreated);
+    public ResponseEntity<TournamentDto> create(@RequestBody Tournament tournament) {
+        Tournament tournamentCreated = tournamentService.saveTournament(tournament);
+        return ResponseEntity.created(URI.create(TournamentResource.PATH + "/" + tournamentCreated.getName())).body(TournamentMapper.INSTANCE.toDto(tournamentCreated));
+    }
+
+    @PutMapping("/{name}")
+    public ResponseEntity<TournamentDto> update(@PathVariable(value = "name") String name,
+                                                @RequestBody Tournament tournament)
+            throws ResourceNotFoundException {
+        Tournament tournamentUpdate = tournamentService.findById(name)
+                .orElseThrow(() -> new ResourceNotFoundException("Tournament not found on: " + name));
+        tournamentUpdate.setOrganizer(tournament.getOrganizer());
+        tournamentUpdate.setStartDate(tournament.getStartDate());
+        tournamentUpdate.setEndDate(tournament.getEndDate());
+        tournamentUpdate.setSponsors(tournament.getSponsors());
+        Tournament saveTournament = tournamentService.saveTournament(tournamentUpdate);
+        return ResponseEntity.ok(TournamentMapper.INSTANCE.toDto(saveTournament));
     }
 
     @DeleteMapping("/{name}")
     public ResponseEntity<Void> delete(@PathVariable(value = "name") String name)
             throws ResourceNotFoundException {
-        Tournament tournament = tournamentService.findById (name)
+        Tournament tournament = tournamentService.findById(name)
                 .orElseThrow(() -> new ResourceNotFoundException("Tournament not found on: " + name));
         tournamentService.deleteById(name);
         return ResponseEntity.noContent().build();

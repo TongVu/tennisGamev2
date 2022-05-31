@@ -3,6 +3,8 @@ package com.example.demo.api;
 import com.example.demo.entity.Player;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.PlayerService;
+import com.example.demo.service.dto.PlayerDto;
+import com.example.demo.service.mapper.PlayerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,24 +20,24 @@ public class PlayerResource {
     public static final String PATH = "/api/players";
 
     @GetMapping
-    public ResponseEntity<List<Player>> getAll(){
-        return ResponseEntity.ok(playerService.getAll());
+    public ResponseEntity<List<PlayerDto>> getAll(){
+        return ResponseEntity.ok(PlayerMapper.INSTANCE.toDtos(playerService.getAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Player> update(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<PlayerDto> update(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
         Player player = playerService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
-        return ResponseEntity.ok(player);
+        return ResponseEntity.ok(PlayerMapper.INSTANCE.toDto(player));
     }
 
     @PostMapping
-    public ResponseEntity<Player> add(@RequestBody Player player){
+    public ResponseEntity<PlayerDto> add(@RequestBody Player player){
         Player createdPlayer = playerService.save(player);
-        return ResponseEntity.created(URI.create(PlayerResource.PATH+"/"+ player.getId())).body(player);
+        return ResponseEntity.created(URI.create(PlayerResource.PATH+"/"+ createdPlayer.getId())).body(PlayerMapper.INSTANCE.toDto(createdPlayer));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Player> update(@PathVariable(value = "id") Integer id,
+    public ResponseEntity<PlayerDto> update(@PathVariable(value = "id") Integer id,
                                           @RequestBody Player playerDetail) throws ResourceNotFoundException{
         Player player = playerService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
         player.setFirstName(playerDetail.getFirstName());
@@ -44,7 +46,7 @@ public class PlayerResource {
         player.setLastName(playerDetail.getLastName());
         player.setPhoneNumber(playerDetail.getPhoneNumber());
         Player playerUpdated = playerService.save(player);
-        return ResponseEntity.ok(playerUpdated);
+        return ResponseEntity.ok(PlayerMapper.INSTANCE.toDto(playerUpdated));
     }
 
     @DeleteMapping("/{id}")

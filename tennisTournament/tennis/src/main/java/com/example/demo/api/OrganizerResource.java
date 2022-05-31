@@ -3,6 +3,8 @@ package com.example.demo.api;
 import com.example.demo.entity.Organizer;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.OrganizerService;
+import com.example.demo.service.dto.OrganizerDto;
+import com.example.demo.service.mapper.OrganizerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,22 +23,22 @@ public class OrganizerResource {
     public static final String PATH = "/api/organizers";
 
     @GetMapping
-    public ResponseEntity<List<Organizer>> getAll() {
-        return ResponseEntity.ok(organizerService.getAll());
+    public ResponseEntity<List<OrganizerDto>> getAll() {
+        return ResponseEntity.ok(OrganizerMapper.INSTANCE.toDtos(organizerService.getAll()));
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<Organizer> getOrganizerByName(@PathVariable(value = "name") String name)
+    public ResponseEntity<OrganizerDto> getOrganizerByName(@PathVariable(value = "name") String name)
             throws ResourceNotFoundException {
         Organizer organizer = organizerService.findById(name)
                 .orElseThrow(() -> new ResourceNotFoundException("Organizer not found on: " + name));
-        return ResponseEntity.ok(organizer);
+        return ResponseEntity.ok(OrganizerMapper.INSTANCE.toDto(organizer));
     }
 
     @PostMapping
-    public ResponseEntity<Organizer> create(@RequestBody Organizer organizer) {
+    public ResponseEntity<OrganizerDto> create(@RequestBody Organizer organizer) {
         Organizer createdOrganizer = organizerService.save(organizer);
-        return ResponseEntity.created(URI.create(OrganizerResource.PATH + "/" + createdOrganizer.getName())).body(createdOrganizer);
+        return ResponseEntity.created(URI.create(OrganizerResource.PATH + "/" + createdOrganizer.getName())).body(OrganizerMapper.INSTANCE.toDto(createdOrganizer));
     }
 
     @DeleteMapping("/{name}")
@@ -48,11 +50,11 @@ public class OrganizerResource {
     }
 
     @PutMapping("/{name}")
-    public ResponseEntity<Organizer> update(@PathVariable(value = "name") String name, @RequestBody Organizer organizerDetail) throws ResourceNotFoundException {
+    public ResponseEntity<OrganizerDto> update(@PathVariable(value = "name") String name, @RequestBody Organizer organizerDetail) throws ResourceNotFoundException {
         Organizer editOrganizer = organizerService.findById(name)
                 .orElseThrow(() -> new ResourceNotFoundException("Organizer not found on: " + name));
         editOrganizer.setAddress(organizerDetail.getAddress());
         editOrganizer.setPhoneNumber(organizerDetail.getPhoneNumber());
-        return ResponseEntity.ok(organizerService.save(editOrganizer));
+        return ResponseEntity.ok(OrganizerMapper.INSTANCE.toDto(organizerService.save(editOrganizer)));
     }
 }
