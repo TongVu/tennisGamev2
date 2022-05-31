@@ -3,6 +3,8 @@ package com.example.demo.api;
 import com.example.demo.entity.Match;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.MatchService;
+import com.example.demo.service.dto.MatchDto;
+import com.example.demo.service.mapper.MatchMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,26 +21,26 @@ public class MatchResource {
     private MatchService matchService;
 
     @GetMapping
-    public ResponseEntity<List<Match>> getALL() {
+    public ResponseEntity<List<MatchDto>> getALL() {
         List<Match> matchList = matchService.getAll();
-        return ResponseEntity.ok(matchList);
+        return ResponseEntity.ok(MatchMapper.INSTANCE.toDtos(matchList));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Match> getById(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<MatchDto> getById(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
         Match match = matchService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found:" + id));
-        return ResponseEntity.ok().body(match);
+        return ResponseEntity.ok().body(MatchMapper.INSTANCE.toDto(match));
     }
 
     @PostMapping
-    public ResponseEntity<Match> create(@RequestBody Match match) {
+    public ResponseEntity<MatchDto> create(@RequestBody Match match) {
         Match createdMatch = matchService.saveMatch(match);
-        return ResponseEntity.created(URI.create(PATH + "/" + createdMatch.getId())).body(createdMatch);
+        return ResponseEntity.created(URI.create(PATH + "/" + createdMatch.getId())).body(MatchMapper.INSTANCE.toDto(createdMatch));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Match> update(@PathVariable(value = "id") Integer id,
+    public ResponseEntity<MatchDto> update(@PathVariable(value = "id") Integer id,
                                         @RequestBody Match matchDetail) throws ResourceNotFoundException {
         Match match = matchService.findById(id).orElseThrow(() -> new ResourceNotFoundException("ID not found:" + id));
         match.setStartDate(matchDetail.getStartDate());
@@ -50,7 +52,7 @@ public class MatchResource {
         match.setStadium(matchDetail.getStadium());
         Match matchUpdate = matchService.saveMatch(match);
 
-        return ResponseEntity.ok(matchUpdate);
+        return ResponseEntity.ok(MatchMapper.INSTANCE.toDto(matchUpdate));
 
     }
 
