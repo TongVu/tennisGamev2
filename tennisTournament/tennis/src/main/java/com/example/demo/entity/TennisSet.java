@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table
 public class TennisSet {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

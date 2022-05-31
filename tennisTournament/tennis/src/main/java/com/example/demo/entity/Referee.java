@@ -14,9 +14,11 @@ import javax.persistence.*;
 @Builder
 
 public class Referee {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(length = 250)
     private String name;
 

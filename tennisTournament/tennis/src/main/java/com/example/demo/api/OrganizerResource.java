@@ -55,6 +55,7 @@ public class OrganizerResource {
                 .orElseThrow(() -> new ResourceNotFoundException("Organizer not found on: " + name));
         editOrganizer.setAddress(organizerDetail.getAddress());
         editOrganizer.setPhoneNumber(organizerDetail.getPhoneNumber());
-        return ResponseEntity.ok(OrganizerMapper.INSTANCE.toDto(organizerService.save(editOrganizer)));
+        Organizer saveOrganizer = organizerService.save(editOrganizer);
+        return ResponseEntity.ok(OrganizerMapper.INSTANCE.toDto(saveOrganizer));
     }
 }

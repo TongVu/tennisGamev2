@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 @Builder
 
 public class Player {
+
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -12,12 +12,15 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RefereeMatch {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @JoinColumn
     @ManyToOne
     private Referee referee;
+
     @JoinColumn
     @ManyToOne
     private Match match;
