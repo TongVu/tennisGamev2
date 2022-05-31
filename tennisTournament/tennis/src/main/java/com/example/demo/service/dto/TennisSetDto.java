@@ -1,38 +1,28 @@
-package com.example.demo.entity;
+package com.example.demo.service.dto;
 
+import com.example.demo.entity.Match;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-
-@Builder
 @Data
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table
-public class SetTennis {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TennisSetDto {
     private Integer id;
-
     private Integer player1Score;
-
     private Integer player2Score;
-
-    private Integer setWinnderId;
-
+    private Integer setWinnerId;
     private Integer setNumber;
-
     private LocalDate startTime;
-
     private LocalDate endTime;
-
-    @ManyToOne
-    @JoinColumn(name = "match_id")
     private Match match;
 
+    private String player1FirstName;
+
+    private String player2FirstName;
+
+    private String stadiumName;
+    private String roundName;
 }
