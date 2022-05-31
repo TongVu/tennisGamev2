@@ -20,7 +20,4 @@ public class StadiumDto {
 
     private String stadiumLocation;
 
-    private LocalTime openHour;
-
-    private LocalTime closeHour;
 }
