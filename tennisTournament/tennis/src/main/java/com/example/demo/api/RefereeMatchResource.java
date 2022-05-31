@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(RefereeMatchApi.PATH)
+@RequestMapping(RefereeMatchResource.PATH)
 public class RefereeMatchResource {
     @Autowired
     private RefereeMatchServiceImpl refereeMatchService;
@@ -31,7 +31,7 @@ public class RefereeMatchResource {
     @PostMapping
     public ResponseEntity<RefereeMatch> add(@RequestBody RefereeMatch refereeMatch){
         RefereeMatch createdRefereeMatch = refereeMatchService.save(refereeMatch);
-        return ResponseEntity.created(URI.create(RefereeMatchApi.PATH+"/"+createdRefereeMatch.getId())).body(createdRefereeMatch);
+        return ResponseEntity.created(URI.create(RefereeMatchResource.PATH+"/"+createdRefereeMatch.getId())).body(createdRefereeMatch);
     }
 
     @PutMapping("/{id}")

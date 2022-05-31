@@ -21,8 +21,8 @@ public class TournamentServiceImpl implements TournamentService {
     }
 
     @Override
-    public void saveTournament(Tournament tournament) {
-        tournamentRepository.save(tournament);
+    public Tournament saveTournament(Tournament tournament) {
+     return tournamentRepository.save(tournament);
     }
 
     @Override

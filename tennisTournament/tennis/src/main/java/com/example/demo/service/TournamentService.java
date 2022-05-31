@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface TournamentService {
     List<Tournament> getAll();
 
-    void saveTournament(Tournament tournament);
+    Tournament saveTournament(Tournament tournament);
 
     Optional<Tournament> findById(String name);
 

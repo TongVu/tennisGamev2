@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(PrizeApi.PATH)
+@RequestMapping(PrizeResource.PATH)
 public class PrizeResource {
     @Autowired
     private PrizeService prizeService;
@@ -32,7 +32,7 @@ public class PrizeResource {
     @PostMapping
     public ResponseEntity<Prize> add(@RequestBody Prize prize) {
         Prize prizeCreated = prizeService.save(prize);
-        return ResponseEntity.created(URI.create(PrizeApi.PATH + "/" + prizeCreated.getId())).body(prizeCreated);
+        return ResponseEntity.created(URI.create(PrizeResource.PATH + "/" + prizeCreated.getId())).body(prizeCreated);
     }
 
     @DeleteMapping("/{id}")

@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(PlayerApi.PATH)
+@RequestMapping(PlayerResource.PATH)
 public class PlayerResource {
     @Autowired
     private PlayerService playerService;
@@ -31,7 +31,7 @@ public class PlayerResource {
     @PostMapping
     public ResponseEntity<Player> add(@RequestBody Player player){
         Player createdPlayer = playerService.save(player);
-        return ResponseEntity.created(URI.create(PlayerApi.PATH+"/"+ player.getId())).body(player);
+        return ResponseEntity.created(URI.create(PlayerResource.PATH+"/"+ player.getId())).body(player);
     }
 
     @PutMapping("/{id}")

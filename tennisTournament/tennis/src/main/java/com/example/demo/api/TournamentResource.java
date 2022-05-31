@@ -1,7 +1,7 @@
 package com.example.demo.api;
 
 import com.example.demo.entity.Tournament;
-import com.example.demo.exceptions.ResourceNotFoundException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.TournamentService;
 import com.example.demo.service.dto.TournamentDto;
 import com.example.demo.service.mapper.TournamentMapper;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
-@RequestMapping(TournamentApi.PATH)
+@RequestMapping(TournamentResource.PATH)
 
 public class TournamentResource {
     public static final String PATH="/api/tournaments";
@@ -38,7 +38,7 @@ public class TournamentResource {
     @PostMapping
     public ResponseEntity<Tournament> create(@RequestBody Tournament tournament) {
         Tournament tournamentCreated= tournamentService.saveTournament(tournament);
-    return ResponseEntity.created(URI.create(TournamentApi.PATH+"/"+tournamentCreated.getName())).body(tournamentCreated);
+    return ResponseEntity.created(URI.create(TournamentResource.PATH+"/"+tournamentCreated.getName())).body(tournamentCreated);
     }
 
     @DeleteMapping("/{name}")

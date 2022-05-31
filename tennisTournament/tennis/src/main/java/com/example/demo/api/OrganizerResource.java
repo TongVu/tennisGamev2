@@ -1,7 +1,7 @@
 package com.example.demo.api;
 
 import com.example.demo.entity.Organizer;
-import com.example.demo.exceptions.ResourceNotFoundException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.service.OrganizerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
-@RequestMapping(OrganizerApi.PATH)
+@RequestMapping(OrganizerResource.PATH)
 
 public class OrganizerResource {
     @Autowired
@@ -36,7 +36,7 @@ public class OrganizerResource {
     @PostMapping
     public ResponseEntity<Organizer> create(@RequestBody Organizer organizer) {
         Organizer createdOrganizer = organizerService.save(organizer);
-        return ResponseEntity.created(URI.create(OrganizerApi.PATH + "/" + createdOrganizer.getName())).body(createdOrganizer);
+        return ResponseEntity.created(URI.create(OrganizerResource.PATH + "/" + createdOrganizer.getName())).body(createdOrganizer);
     }
 
     @DeleteMapping("/{name}")

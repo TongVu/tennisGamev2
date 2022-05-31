@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(RoundApi.PATH)
+@RequestMapping(RoundResource.PATH)
 public class RoundResource {
     @Autowired
     private RoundService roundService;
@@ -34,7 +34,7 @@ public class RoundResource {
     @PostMapping
     public ResponseEntity<Round> create(@RequestBody Round round){
         Round createdRound = roundService.saveRound(round);
-        return ResponseEntity.created((URI.create(RoundApi.PATH + "/" + createdRound.getRoundName()))).body(createdRound);
+        return ResponseEntity.created((URI.create(RoundResource.PATH + "/" + createdRound.getRoundName()))).body(createdRound);
     }
 
     @PutMapping("/{id}")
