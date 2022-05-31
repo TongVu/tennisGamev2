@@ -36,9 +36,9 @@ public class OrganizerResource {
     }
 
     @PostMapping
-    public ResponseEntity<Organizer> create(@RequestBody Organizer organizer) {
+    public ResponseEntity<OrganizerDto> create(@RequestBody Organizer organizer) {
         Organizer createdOrganizer = organizerService.save(organizer);
-        return ResponseEntity.created(URI.create(OrganizerResource.PATH + "/" + createdOrganizer.getName())).body(createdOrganizer);
+        return ResponseEntity.created(URI.create(OrganizerResource.PATH + "/" + createdOrganizer.getName())).body(OrganizerMapper.INSTANCE.toDto(createdOrganizer));
     }
 
     @DeleteMapping("/{name}")
@@ -50,11 +50,11 @@ public class OrganizerResource {
     }
 
     @PutMapping("/{name}")
-    public ResponseEntity<Organizer> update(@PathVariable(value = "name") String name, @RequestBody Organizer organizerDetail) throws ResourceNotFoundException {
+    public ResponseEntity<OrganizerDto> update(@PathVariable(value = "name") String name, @RequestBody Organizer organizerDetail) throws ResourceNotFoundException {
         Organizer editOrganizer = organizerService.findById(name)
                 .orElseThrow(() -> new ResourceNotFoundException("Organizer not found on: " + name));
         editOrganizer.setAddress(organizerDetail.getAddress());
         editOrganizer.setPhoneNumber(organizerDetail.getPhoneNumber());
-        return ResponseEntity.ok(organizerService.save(editOrganizer));
+        return ResponseEntity.ok(OrganizerMapper.INSTANCE.toDto(organizerService.save(editOrganizer)));
     }
 }

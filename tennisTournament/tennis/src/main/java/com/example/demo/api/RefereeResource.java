@@ -33,20 +33,20 @@ public class RefereeResource {
     }
 
     @PostMapping
-    public ResponseEntity<Referee> add(@RequestBody Referee referee){
+    public ResponseEntity<RefereeDto> add(@RequestBody Referee referee){
         Referee createdReferee = refereeService.save(referee);
-        return ResponseEntity.created(URI.create(RefereeResource.PATH+"/"+createdReferee.getId())).body(createdReferee);
+        return ResponseEntity.created(URI.create(RefereeResource.PATH+"/"+createdReferee.getId())).body(RefereeMapper.INSTANCE.toDto(createdReferee));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Referee> update(@PathVariable(value = "id") Integer id,
+    public ResponseEntity<RefereeDto> update(@PathVariable(value = "id") Integer id,
                                           @RequestBody Referee refereeDetails) throws ResourceNotFoundException{
         Referee referee = refereeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
         referee.setName(refereeDetails.getName());
         referee.setAddress(refereeDetails.getAddress());
         referee.setPhoneNumber(refereeDetails.getPhoneNumber());
         Referee refereeUpdated = refereeService.save(referee);
-        return ResponseEntity.ok(refereeUpdated);
+        return ResponseEntity.ok(RefereeMapper.INSTANCE.toDto(refereeUpdated));
     }
 
     @DeleteMapping("/{id}")
