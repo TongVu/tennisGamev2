@@ -23,6 +23,7 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public Match saveMatch(Match match) {
+        //check start date here
         matchRepository.save(match);
         return match;
     }

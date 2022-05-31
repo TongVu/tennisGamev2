@@ -27,9 +27,9 @@ public class SetTennis {
 
     private Integer setNumber;
 
-    private LocalDate startDate;
+    private LocalDate startTime;
 
-    private LocalDate endDate;
+    private LocalDate endTime;
 
     @ManyToOne
     @JoinColumn(name = "match_id")
