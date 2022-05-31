@@ -3,7 +3,9 @@ package com.example.demo.api;
 
 import com.example.demo.entity.Referee;
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.service.dto.RefereeDto;
 import com.example.demo.service.impl.RefereeServiceImpl;
+import com.example.demo.service.mapper.RefereeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +21,14 @@ public class RefereeResource {
     public static final String PATH = "/api/referees";
 
     @GetMapping
-    public ResponseEntity<List<Referee>> getAll(){
-        return ResponseEntity.ok(refereeService.getAll());
+    public ResponseEntity<List<RefereeDto>> getAll(){
+        return ResponseEntity.ok(RefereeMapper.INSTANCE.toDtos(refereeService.getAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Referee> update(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<RefereeDto> update(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
         Referee referee = refereeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found on " + id));
-        return ResponseEntity.ok(referee);
+        return ResponseEntity.ok(RefereeMapper.INSTANCE.toDto(referee));
 
     }
 

@@ -11,5 +11,5 @@ public interface PrizeMapper {
 
     PrizeDto toDto(Prize prize);
 
-    List<PrizeDto> toDtos(Prize prize);
+    List<PrizeDto> toDtos(List<Prize> prize);
 }

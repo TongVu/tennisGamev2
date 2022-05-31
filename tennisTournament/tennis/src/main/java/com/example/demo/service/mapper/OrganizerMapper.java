@@ -12,5 +12,5 @@ public interface OrganizerMapper {
 
     OrganizerDto toDto(Organizer organizer);
 
-    List<OrganizerDto> toDto(List<Organizer> organizers);
+    List<OrganizerDto> toDtos(List<Organizer> organizers);
 }
