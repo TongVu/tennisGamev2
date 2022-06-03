@@ -68,7 +68,6 @@ public class MatchResource {
         Match match = matchService.findById(id).orElseThrow(() -> new ResourceNotFoundException("ID not found:" + id));
         match.setStartDate(matchDetail.getStartDate());
         match.setDuration(matchDetail.getDuration());
-        match.setWinnerId(matchDetail.getWinnerId());
         match.setPlayer1(playerService.getById(matchDetail.getPlayer1Id()).get());
         match.setPlayer2(playerService.getById(matchDetail.getPlayer2Id()).get());
         match.setRound(roundService.findRoundById(matchDetail.getRoundId()).get());
@@ -85,7 +84,6 @@ public class MatchResource {
         matchService.deleteMatchById(id);
         return ResponseEntity.noContent().build();
     }
-
 }
 
 

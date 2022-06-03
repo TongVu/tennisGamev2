@@ -15,7 +15,6 @@ public class MatchDto {
         private Integer id;
         private LocalDate startDate;
         private Integer duration;
-        private Integer winnerId;
         private String player1Name;
         private String player2Name;
         private String roundName;
